@@ -64,6 +64,7 @@ function fireqbsearch(arr, val) {
             low = mid + 1
         }
     }
+    return -1
 }
 
 console.log(fireqbsearch(arr, 7))
@@ -74,6 +75,7 @@ function laseqbsearch(arr, val) {
     while(low <= high) {
         let mid = Math.ceil(low + ((high - low) >> 1))
         if(arr[mid] === val) {
+            // 后一个不等于定值或已经到最后一个
             if(arr[mid + 1] !== val || mid === high) {
                 return mid
             }else {
@@ -85,9 +87,50 @@ function laseqbsearch(arr, val) {
             low = mid + 1
         }
     }
+    return -1
 }
 
 console.log(laseqbsearch(arr, 7))
 
-// 变体3：查找第一个大于给定值的下标
-// 变体4：查找最后一个小于给定值的下标
+// 变体3：查找第一个大于等于给定值的下标
+function firmorebsearch(arr, val) {
+    let low = 0,
+        high = arr.length - 1
+    while(low <= high) {
+        let mid = Math.ceil(low + ((high - low) >> 1))
+        if(arr[mid] >= val) {
+            // 前一个小于定值或已经到了第一个
+            if(arr[mid - 1] < val || mid === 0) {
+                return mid
+            }else {
+                high = mid - 1
+            }
+        }else {
+            low = mid + 1
+        }
+    }
+    return -1
+}
+
+console.log(firmorebsearch(arr, 4))
+
+// 变体4：查找最后一个小于等于给定值的下标
+function laslessbsearch(arr, val) {
+    let low = 0,
+        high = arr.length - 1
+    while(low <= high) {
+        let mid = Math.ceil(low + ((high - low) >> 1))
+        if(arr[mid] <= val) {
+            if(arr[mid + 1] > val || mid === high) {
+                return mid
+            }else {
+                low = mid + 1
+            }
+        } else {
+            high = mid - 1
+        }
+    }
+    return -1
+}
+
+console.log(laslessbsearch(arr, 4))
