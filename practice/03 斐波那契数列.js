@@ -1,4 +1,4 @@
-// 返回斐波那契额数列的第n项
+// 返回斐波那契额数列的第n项，从0项开始，0项为1
 // 1 1 2 3 5 8
 
 // 递归
@@ -11,13 +11,15 @@ function fibonacci(n) {
 console.log(fibonacci(5));
 
 // 递归+记忆化
-function MemoryFibonacci() {
+function MemoryFibonacci(n, memory=[]) {
     if(n <= 1) return 1
     if(!memory[n]) {
         memory[n] = MemoryFibonacci(n - 1) + MemoryFibonacci(n - 2);
     }
     return memory[n]
 }
+
+console.log(MemoryFibonacci(5));
 
 // 尾递归
 // n项 0项 1项 
@@ -28,7 +30,7 @@ function tailFibonacci(n , ac0 = 1 , ac1 = 1) {
 
 console.log(tailFibonacci(5));
 
-// 动态规划
+// 动态规划：通过保存中间的计算结果减少计算时间
 // 优点：空间换时间，缓存计算结果
 // 缺点：空间复杂度高
 function dynamicFibonacci(n) { 

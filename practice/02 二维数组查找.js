@@ -32,22 +32,23 @@ function _compare(arr, num, x, y) {
     }
 }
 
-console.log(findNumFrom2DArray([[1,2,3], [4,5,6], [7,8,9]], 3));
+console.log(findNumFrom2DArray([[1,2,3], [4,5,6], [7,8,9]], 5));
 
 /**
- * 更优解：二分查找
+ * 拓展：一维数组二分查找
  */
 
 function binarySearchNumFrom2DArray(arr, num) {
-    const _arr = arr.flat()
     const start = 0,
-          end = _arr.length
-    return _binarySearch(_arr, num, start, end)
+        // 8
+          end = arr.length
+    return _binarySearch(arr, num, start, end)
 }
 function _binarySearch(arr, num, start, end) {
     if(start > end) {
         return false
     }
+    // 4,33
     const mid = Math.floor((start + end) / 2)
     console.log(arr[mid], num);
     if(num === arr[mid]) {
@@ -59,6 +60,6 @@ function _binarySearch(arr, num, start, end) {
     }
 }
 
-console.log(binarySearchNumFrom2DArray([[1,2,3], [4,5,6], [7,8,9]], 3));
+console.log(binarySearchNumFrom2DArray([1,2,3,4,33,34,44,45], 4));
 
 
