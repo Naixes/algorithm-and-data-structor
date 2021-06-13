@@ -4,6 +4,132 @@
 
 仅用于加深理解详细查看notes中的数据结构部分
 
+### 列表
+
+少量元素
+
+没有复杂的查找和排序
+
+#### 迭代器
+
+增加删除比for更灵活
+
+访问元素时不必考虑底层数据结构
+
+有统一的方法访问元素
+
+#### 模拟
+
+```js
+function List(){
+    this.listSize = 0 ; // 列表元素个数
+    this.pos = 0 ; // 列表当前位置
+    this.dataStore = [];// 初始化一个空数组 用来保存列表元素
+    this.clear = clear ;// 清空列表中所有元素
+    this.find = find; // 查找元素
+    this.toString = toString ; // 返回列表字符串形式
+    this.insert = insert ;// 在现有元素后插入新的元素
+    this.append = append; // 在列表元素末尾增加元素
+    this.remove = remove; // 从列表中删除元素
+    this.front = front ; // 从列表的当前位置移动到第一个元素
+    this.end = end; // 从列表当前位置移动到最后一个位置
+    this.prev = prev ; //当前位置后移一位
+    this.next = next ;// 当期位置向前一位
+    this.length = length ; // 列表包含元素的个数
+    this.currPos = currPos; // 返回列表当前位置
+    this.moveTo = moveTo ;// 当前位置移动到指定位置
+    this.getElement = getElement; // 显示当前元素
+    this.contains = contains;// 是否包含该元素
+    this.getKthFromEnd = getKthFromEnd;// 链表中倒数第k个节点
+}
+function append(element){
+    this.dataStore[this.listSize++] = element
+}
+function find(element){
+    for(var i = 0;i<this.dataStore.length;++i){
+        if(this.dataStore[i]==element){
+            return i;
+        }
+    }
+    return -1;
+}
+function remove(element){
+    var foundAt = this.find(element);
+    if(foundAt>-1){
+        this.dataStore.slice(foundAt,1);
+        --this.listSize;
+        return 
+    }
+    return false;
+}
+function length(){
+    return this.listSize
+}
+function toString(){
+    return this.dataStore;
+}
+function insert(element,after){
+    var insertPos = this.find(after);
+    if(insertPos>-1){
+        this.dataStore.splice(insertPos+1,0,element);
+        ++this.listSize;
+        return true
+    }
+    return false
+}
+function clear(){
+    delete this.dataStore;
+    this.dataStore.length = 0 ;
+    this.listSize = this.pos = 0;
+}
+function contains(element){
+    for(var i=0;i<this.dataStore.length;i++){
+        if(this.dataStore[i]==element){
+            return true
+        }
+    }
+    return false
+}
+// 遍历列表
+function front(){
+    this.pos = 0 ;
+    
+}
+function end(){
+    this.pos = this.listSize -1;
+}
+function prev(){
+    if(this.pos>0){
+        --this.pos
+    }
+}
+function next(){
+    if(this.pos<this.listSize){
+        ++this.pos
+    }
+}
+function currPos(){
+    return this.pos
+}
+function moveTo(position){
+    this.pos = position
+}
+function getElement(){
+    return this.dataStore[this.pos]
+}
+
+var names = new List();
+names.append("小红")
+names.append("小王")
+names.append("小丽")
+names.next()
+console.log(names)
+// // 迭代器
+// for(names.front();names.currPos()<names.length();names.next()){
+//     console.log(names.getElement())
+// }
+```
+
 ### 线性结构
 
 数据结构我们可以**从逻辑上**分为线性结构和非线性结构。线性结构有数组，栈，链表等， 非线性结构有树，图等。
@@ -48,9 +174,96 @@ function Form() {
 
 #### 队列
 
+特殊的列表，FIFO
+
 队列是一种受限的序列，它只能够操作队尾和队首，并且只能只能在队尾添加元素，在队首删除元素。
 
 队列作为一种最常见的数据结构同样有着非常广泛的应用， 比如消息队列
+
+#### 模拟
+
+```js
+function Queue(){
+    this.dataStore = [];
+    this.enqueue = enqueue;// 向队尾增加一个元素
+    this.dequeue = dequeue; // 删除对首元素
+    this.front = front ; // 读取队首元素
+    this.back = back ; // 读取队尾元素
+    this.toSting = toSting; // 显示队列中的所有元素
+    this.empty = empty;//判断 队列是否为空
+}
+//入队
+function enqueue(element){
+    this.dataStore.push(element)
+
+}
+//出队
+function dequeue(){
+    return this.dataStore.shift();
+
+}
+// 
+function front(){
+    return this.dataStore[0]
+
+}
+
+function back(){
+    return this.dataStore[this.dataStore.length-1]
+
+}
+function empty(){
+    if(this.dataStore.length==0){
+        return true
+    }else{
+        return false
+    }
+
+}
+function toSting(){
+    var reStr = '';
+    for (let i = 0; i < this.dataStore.length; i++) {
+        reStr += this.dataStore[i]+"\n";
+    }
+    return reStr
+
+}
+// var  q = new Queue();
+// q.enqueue("xiaowang1")
+// q.enqueue("xiaowang2")
+// q.enqueue("xiaowang3")
+// q.enqueue("xiaowang4")
+// // console.log(q)
+// // q.dequeue()
+// console.log(q.toSting())
+
+// 实现方块舞的舞伴分配问题
+
+var man = new Queue();
+man.enqueue("张——1")
+man.enqueue("王——1")
+
+var wom = new Queue();
+wom.enqueue("张-2")
+wom.enqueue("王-2")
+
+function  getDancer(){
+    return `${man.dequeue()}----${wom.dequeue()}` 
+}
+console.log(getDancer(),1)
+console.log(getDancer(),2)
+
+//  优先 队列
+function dequeue(){
+    var priority = 0;
+    for (let i = 0; i < this.dataStore.length; i++) {
+       if (this.dataStort[i].code>this.dataStore[priority].code) {
+           priority = i
+       }
+    }
+    return this.dataStore.splice(priority,1) 
+}
+```
 
 ##### HTTP 1.1 的队头阻塞问题
 
@@ -82,7 +295,7 @@ function Form() {
 
 #### 栈
 
-栈也是一种受限的序列，它只能够操作栈顶，不管入栈还是出栈，都是在栈顶操作。
+栈也是一种受限的序列，它**只能够操作栈顶/栈底**，不管入栈还是出栈，都是在栈顶操作。
 
 以上两种操作可以简单概括为**后进先出 (LIFO = last in, first out)**。
 
@@ -96,9 +309,170 @@ function Form() {
 
 合法的栈混洗操作也是一个经典的题目，这其实和合法的括号匹配表达式之间存在着一一对应的关系，也就是说 n 个元素的栈混洗有多少种，n 对括号的合法表达式就有多少种。感兴趣的可以查找相关资料。
 
+```js
+function Stack(){
+    this.dataStore = [];//保存栈内元素
+    this.top = 0;//标记可以插入新元素的位置,栈内压人元素该变量变大 弹出元素,变量减小
+    this.push = push;//入栈操作
+
+    this.pop = pop;//出栈操作
+    this.peek = peek;//返回栈顶元素
+    this.clear = clear;//清空栈
+    this.length = length;//栈的长度
+}
+
+//向栈中压入元素,同时让指针top+1 一定注意++
+function push(element){
+    this.dataStore[this.top++] = element;
+}
+
+//出栈操作,同时top-1
+function pop(){
+    return this.dataStore[this.top-1]
+}
+
+//返回栈内元素个数
+function length(){
+    return this.top;
+}
+
+//清空一个栈
+function clear(){
+    this.top = 0;
+}
+
+var s = new Stack();
+s.push("小红第一");
+s.push("小李第二");
+s.push("小芳第三");
+s.push("小张第四");
+console.log("栈的长度",s.length());
+console.log("栈顶",s.peek());
+
+//应用小例子,回文函数
+
+function isPalindrome(){
+    var s = new Stack();
+    for(var i = 0; i < word.length;i++){
+        s.push(word[i]);
+    }
+
+    var rword = "";
+    console.log(s);
+    while(s.length()>0){
+        rword+=s.pop()
+    }
+    if(rword == word){
+        return true;
+    }else{
+        return false
+    }
+}
+
+var word = "racecar";
+alert(isPalindrome(word));
+```
+
 #### 链表
 
-链表是一种最基本数据结构，熟练掌握链表的结构和常见操作是基础中的基础。
+节点组成的集合
+
+##### 模拟
+
+```js
+// 单向链表
+function Node(element){
+    this.element = element
+    this.next = null;
+
+}
+// 链表操作方法 
+function List(){
+    this.head = new Node("head");
+    this.find = find;
+    this.insert = insert;
+    this.display = display
+    this.findPrevious = findPrevious
+    this.remove = remove;
+    this.getKthFromEnd = getKthFromEnd;
+}
+//插入位置
+function find(item){
+    var currNode = this.head;
+    while(currNode.element!=item){
+        currNode = currNode.next
+    }
+    return currNode;
+
+}
+// 插入
+function insert(newElement,item){
+    var newNode = new Node(newElement);
+    var currNode = this.find(item)
+    newNode.next = currNode.next;
+    currNode.next = newNode
+
+ }
+
+ function findPrevious(item){
+     var currNode = this.head;
+     while((currNode.next!==null)&&(currNode.next.element!==item)){
+         currNode = currNode.next;
+     }
+     return currNode
+     
+ }
+ function remove (item){
+     var preNode = this.findPrevious(item)
+     var currNode = this.find(item)
+     if(preNode.next!==null){
+         preNode.next = currNode.next;
+         currNode.next = null
+     }
+ }
+
+function display(){
+    var currNode = this.head;
+    while(currNode.next!==null){
+        console.log('currNode.next.element', currNode.next.element)
+        currNode = currNode.next
+    }
+
+}
+// 定义一个方法 用于 链表中倒数第k个节点
+function getKthFromEnd (k) {
+    var first = this.head
+    var second = this.head;
+    // first 走k步
+    while(k!==0){
+        first =first.next;
+        k--
+        console.log(k)
+    }
+    //  first为null 时候 就是second 剩余的
+    while (first !== null) {
+        first = first.next;
+        second = second.next;
+    }
+    return second;
+};
+var cities = new List()
+cities.insert("first","head")
+cities.insert("second", "first")
+cities.insert("thrid","second")
+cities.insert("five","thrid")
+cities.display()
+console.log("------")
+console.log(cities.getKthFromEnd(2))
+console.log("------")
+// console.log(cities.head)
+
+// console.log("========",cities)
+// cities.remove("second")
+// cities.display()
+```
+
+
 
 ##### React Fiber
 
