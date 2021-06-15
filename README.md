@@ -130,6 +130,282 @@ console.log(names)
 // }
 ```
 
+### 字典
+
+键值对
+
+#### 模拟
+
+```js
+function Dictionary(){
+    this.dataStore = new Array();
+    this.add = add;
+    this.find = find;
+    this.remove = remove;
+    this.showAll = showAll;
+    this.count = count;
+    this.clear = clear;
+
+}
+function add(key,val){
+    this.dataStore[key] = val
+}
+function find(key){
+    return this.dataStore[key]
+}
+
+function remove(key){
+    delete this.dataStore[key]
+
+}
+function showAll(){
+    var dataKeys = Object.keys(this.dataStore).sort()
+    for(var key in dataKeys){
+        console.log(dataKeys[key],"=>",this.dataStore[dataKeys[key]])
+    }
+
+}
+function count(){
+    return Object.keys(this.dataStore).length
+
+}
+function clear(){
+    var dataKeys = Object.keys(this.dataStore)
+    for(var key in dataKeys){
+        delete this.dataStore[dataKeys[key]]
+    }
+
+}
+var pbook = new Dictionary()
+pbook.add("1","100")
+pbook.add("2","200")
+pbook.showAll()
+pbook.remove("1")
+console.log("----------")
+pbook.showAll()
+console.log(pbook.count())
+```
+
+### 散列
+
+键值相同碰撞，高效的散列函数仍会产生碰撞
+
+数组的长度应该为质数
+
+开链法：碰撞时开辟第二数组，称为链，数组大小>1.5*数据时适用
+
+线性探测法属于开放寻址散列，碰撞时寻找下一位置，数组大小>2*数据时适用
+
+#### 模拟
+
+```js
+function Hash(){
+    this.table = new Array(137)
+    this.simpleHash = simpleHash;
+    this.betterHash = betterHash;
+    this.put = put
+    this.get = get
+    this.show = show;
+    this.buildChains = buildChains;
+
+}
+function buildChains(){
+    for (let i = 0; i < this.table.length; i++) {
+        this.table[i] = new Array()
+        
+    }
+}
+
+function betterHash(data){
+    var H = 31;
+    var total = 0;
+    for (let i = 0; i < data.length; i++) {
+        total += H * total + data.charCodeAt(i)
+    }
+    if(total<0){
+        total += this.table.length -1
+    }
+    return total % this.table.length;
+
+}
+function simpleHash(data){
+    var total = 0;
+    for (let i = 0; i < data.length; i++) {
+        total += data.charCodeAt(i)
+    }
+    return total % this.table.length
+
+}
+function put(data){
+    var pos = this.simpleHash(data)
+    // var pos = this.betterHash(data)
+    // this.table[pos] = data;
+    var ind = 0;
+    // if(this.table[pos]&&this.table[pos][ind]==undefined){
+    //     this.table[pos][ind] = data
+    //     ind++
+
+    // }else{
+    //     while(this.table[pos]&&this.table[pos][ind]!=undefined){
+    //         ++ind
+    //     }
+    //     this.table[pos][ind] = data;
+    // }
+    if(this.table[pos]!==undefined){
+        this.table[pos] = data
+    }else{
+        while(this.table[pos]!==undefined){
+            pos++
+        }
+        this.table[pos] = data
+    }
+
+
+}
+function get(key){
+    var hash = this.simpleHash(key)
+    for (let index = hash; index < this.table.length; index++){
+        if(this.table[index]==key){
+            return index
+        }
+    }
+    // return this.table[this.simpleHash(data)]
+    // return this.table[this.simpleHash(data)]
+    return undefined
+
+}
+function show(){
+    var n = 0;
+    for (let i = 0; i < this.table.length; i++) {
+        if(this.table[i]&&this.table[i][0]!=undefined){
+            console.log("健值是-》"+i+"值是"+this.table[i])
+        }
+        
+    }
+
+}
+let  hash = new Hash();
+hash.buildChains()
+hash.put("l1")
+hash.put("i2")
+hash.put("j3")
+hash.put("i4")
+hash.put("n5")
+hash.put("h6")
+hash.put("a7")
+hash.put("i8")
+hash.show()
+console.warn(hash.get("n5"))
+```
+
+### 集合
+
+无序，唯一
+
+#### 模拟
+
+```js
+function Set(){
+    this.dataStore = [];
+    this.add = add;
+    this.remove = remove;
+    this.show = show;
+    this.union = union;
+    this.interset = interset;
+    this.difference = difference;
+    this.subset = subset;
+    this.contains = contains;
+    this.size = size;
+}
+function add(data){
+    if(this.dataStore.indexOf(data)<0){
+        this.dataStore.push(data)
+
+    }else{
+        return false
+    }
+
+}
+function remove(data){
+    var pos = this.dataStore.indexOf(data)
+    if (pos>-1) {
+        this.dataStore.splice(pos,1)
+    }else{
+        return false
+    }
+}
+function show(){
+    return this.dataStore;
+}
+function size(){
+    return this.dataStore.length;
+}
+// 合集
+function union(set){
+    var temSet = new Set();
+    for (let index = 0; index < this.dataStore.length; index++) {
+        temSet.add(this.dataStore[i])
+    }
+    for (let index = 0; index < set.dataStore.length; index++) {
+        if(!temSet.contains(set.dataStore[i])){
+            temSet.dataStore.push(set.dataStore[i])
+        }
+    }
+    return temSet
+
+}
+function contains(data){
+    if(this.dataStore.indexOf(data)>-1){
+        return true
+    }else{
+        return false
+    }
+
+}
+// 并集
+function interset(set){
+    var temSet = new Set();
+    for (let index = 0; index < set.dataStore.length; index++) {
+        if(temSet.contains(set.dataStore[i])){
+            temSet.dataStore.push(set.dataStore[i])
+        }
+    }
+    return temSet
+}
+// 补集
+function difference(set){
+    var temSet = new Set();
+    for (let index = 0; index < set.dataStore.length; index++) {
+        if(!temSet.contains(set.dataStore[i])){
+            temSet.dataStore.push(set.dataStore[i])
+        }
+    }
+    return temSet
+}
+// 子集
+function subset(set) {
+  if(set.size() > this.size()) {
+    return false
+  }else {
+    for (let index = 0; index < set.dataStore.length; index++) {
+        if(!this.contains(set.dataStore[i])){
+           return false
+        }
+    }
+    return true
+  }
+}
+var names = new Set();
+names.add("小红")
+names.add("小李")
+names.add("小张")
+names.add("小黄")
+names.add("小王")
+console.log(names.show())
+names.remove("小王")
+console.log(names.show())
+```
+
 ### 线性结构
 
 数据结构我们可以**从逻辑上**分为线性结构和非线性结构。线性结构有数组，栈，链表等， 非线性结构有树，图等。
@@ -431,6 +707,7 @@ function insert(newElement,item){
      }
  }
 
+// 遍历
 function display(){
     var currNode = this.head;
     while(currNode.next!==null){
@@ -470,9 +747,92 @@ console.log("------")
 // console.log("========",cities)
 // cities.remove("second")
 // cities.display()
+
+
+// 双向链表
+function Node(element){
+    this.element = element;
+    this.next = null;
+    this.previous = null;
+}
+function List(){
+    this.head = new Node("head");
+    this.find = find;
+    this.insert = insert;
+    this.display = display
+    this.remove = remove
+    this.displReverse = displReverse
+    this.findLast  =findLast
+
+}
+function find(item){
+    var currNode = this.head;
+    while(currNode.element!=item){
+        currNode  = currNode.next
+    }
+    return currNode
+
+}
+function insert(newElement,item){
+    var newNode = new Node(newElement);
+    var current = this.find(item)
+    newNode.next = current.next;
+    newNode.previous = current;
+    current.next = newNode;
+    // 不是尾节点
+     if(!newNode.next==null){
+        //  console.log(newNode)
+         newNode.next.previous = newNode
+     }
+}
+function remove(item){
+    var currNode = this.find(item);
+    if((currNode.next===null)){
+        currNode.previous.next = currNode.next;
+        currNode.next.previous = currNode.previous
+        currNode.next = null;
+        currNode.previous = null
+    }else{
+        currNode.previous.next = null;
+        currNode.previous = null
+    }
+
+}
+function display(){
+    var currNode = this.head;
+    while(currNode.next!==null){
+        console.log('currNode.next.element', currNode.next.element)
+        currNode = currNode.next
+    }
+}
+function findLast(){
+    var  currNode = this.head;
+    while(!(currNode.next==null)){
+        currNode = currNode.next
+    }
+    return currNode
+}
+// 反向遍历
+function displReverse(){
+    var currNode = this.findLast();
+    console.log(currNode,"currNode.previous")
+    while(!(currNode.previous==null)){
+        console.log(currNode.element)
+        currNode=currNode.previous;
+    }
+}
+var cities = new List();
+cities.insert("first","head")
+cities.insert("second","first")
+cities.insert("third","second")
+cities.display()
+
+
+console.log("=========")
+cities.remove("second")
+cities.display()
+cities.displReverse()
 ```
-
-
 
 ##### React Fiber
 
@@ -551,13 +911,19 @@ let fiber = {
 
 #### 二叉树
 
+查找，添加，删除快，不重复，存储有层级关系的数据，还用来存储有序列表，从第0层开始，层数就是树的深度，没有子节点的节点是叶子节点
+
 二叉树是节点度数不超过二的树，是树的一种特殊子集，有趣的是二叉树这种被限制的树结构却能够表示和实现所有的树， 它背后的原理正是`长子 + 兄弟`法，用邓老师的话说就是`二叉树是多叉树的特例，但在有根且有序时，其描述能力却足以覆盖后者`。
 
 > 实际上， 在你使用`长子 + 兄弟`法表示树的同时，进行 45 度角旋转即可。
 
 对于一般的树，我们通常会去遍历，这里又会有很多变种。
 
-下面我列举一些二叉树遍历的相关算法：
+先序：根左右，后续：左右根，中序：左根右
+
+路径
+
+二叉树遍历的相关算法：
 
 - [94.binary-tree-inorder-traversal]()
 - [102.binary-tree-level-order-traversal]()
@@ -601,13 +967,156 @@ let fiber = {
 
 对于一个二叉查找树，常规操作有插入，查找，删除，找父节点，求最大值，求最小值。
 
-二叉查找树，之所以叫查找树就是因为其非常适合查找，举个例子， 如下一颗二叉查找树，我们想找节点值小于且最接近 58 的节点，搜索的流程如图所示：
+二叉查找树，之所以叫查找树就是因为其非常适合查找
 
 另外我们二叉查找树有一个性质是： `其中序遍历的结果是一个有序数组`。 有时候我们可以利用到这个性质。
 
 相关题目：
 
 - [98.validate-binary-search-tree]()
+
+```js
+// 二叉查找树
+function Node(data, left, right) {
+    this.data = data;
+    this.left = left;
+    this.right = right;
+    this.show = show;
+}
+
+function show() {
+    return this.data;
+}
+
+function BST() {
+    this.root = null;
+    this.insert = insert;
+    this.inOrder = inOrder;
+    this.getSmallest = getSmallest;
+    this.getMax = getMax;
+    this.find = find;
+    this.remove = remove;
+}
+
+function insert(data) {
+    var n = new Node(data, null, null)
+    if (this.root === null) {
+        this.root = n
+    } else {
+        var current = this.root;
+        var parent;
+        while (true) {
+            parent = current;
+            if (data < current.data) {
+                current = current.left
+                if (current == null) {
+                    parent.left = n;
+                    break;
+                }
+            } else {
+                current = current.right
+                if (current == null) {
+                    parent.right = n
+                    break
+                }
+            }
+        }
+    }
+}
+
+// 中序遍历
+function inOrder(node) {
+    if (!(node == null)) {
+        inOrder(node.left);
+        console.log(node.data)
+        inOrder(node.right)
+    }
+}
+
+function getSmallest(root) {
+    var current = this.root || root;
+    while (current.left !== null) {
+        current = current.left
+    }
+    return current.data
+}
+
+function getMax(root) {
+    var current = this.root || root;
+    while (!(current.right === null)) {
+        current = current.right
+    }
+    return current.data
+}
+
+function find(data) {
+    var current = this.root;
+    while (current != null) {
+        if (current.data === data) {
+            return current;
+        } else if (data < current.data) {
+            current = current.left
+        } else {
+            current = current.right
+        }
+    }
+    return null
+}
+
+function remove(data) {
+    removeNode(this.root, data)
+}
+
+function removeNode(node, data) {
+    if (node == null) {
+        return null
+    }
+    if (data == node.data) {
+        if (node.left == null && node.right == null) {
+            return null
+        }
+        if (node.left == null) {
+            return node.right
+        }
+        if (node.right == null) {
+            return node.left
+        }
+        // 把当前值和最小值进行交换
+        var tempNode = getSmallest(node.right)
+        node.data = tempNode.data;
+        node.right = removeNode(node.right, tempNode.data)
+        return node
+    } else if (data < node.data) {
+        // 删除左节点
+        node.left = removeNode(node.left, data);
+        return node
+    } else {
+        // 删除右节点
+        node.right = removeNode(node.right, data);
+        return node
+    }
+}
+
+var nums = new BST();
+nums.insert(23)
+nums.insert(45)
+nums.insert(16)
+nums.insert(37)
+nums.insert(3)
+nums.insert(99)
+nums.insert(22)
+console.log("---------")
+console.log(nums)
+// nums.show()
+// console.log("---------")
+// console.warn(nums.getSmallest())
+// console.log("---------")
+// console.warn(nums.getMax())
+// console.log("---------")
+// nums.find(16)
+// nums.remove(16)
+// nums.inOrder(nums.root)
+```
 
 #### 二叉平衡树
 
@@ -659,6 +1168,20 @@ let fiber = {
 
 图论〔Graph Theory〕是数学的一个分支。它以图为研究对象。图论中的图是由若干给定的点及连接两点的线所构成的图形，这种图形通常用来描述某些事物之间的某种特定关系，用点代表事物，用连接两点的线表示相应两个事物间具有这种关系。
 
+图由**边**的集合和**顶点**的集合组成，顶点有**权重**，称为**成本**，顶点是有序的叫**有序图**，比如流程图
+
+从自身流向自身，无重复顶点称作环或**简单圈**，长度为0，有重复称作**平凡圈**
+
+所有的顶点之间都有路径叫**强连通**图
+
+路径
+
+图的搜索：深度优先和广度优先
+
+查找最短路径，广度优先
+
+邻接表，二元数组
+
 #### 基本概念
 
 - 无向图 & 有向图
@@ -677,7 +1200,7 @@ let fiber = {
 
 #### 图的建立
 
-一般图的题目都不会给你一个现成的图结构。当你知道这是一个图的题目的时候，解题的第一步通常就是建图。这里我简单介绍两种常见的建图方式。
+一般图的题目都不会给你一个现成的图结构。当你知道这是一个图的题目的时候，解题的第一步通常就是建图。两种常见的建图方式。
 
 ##### 邻接矩阵（常见）
 
