@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+const arr = [
+    { id: 1, parentId: 0 }, 
+    { id: 2, parentId: 1 },
+    { id: 3, parentId: 1 },
+    { id: 4, parentId: 2 },
+    { id: 5, parentId: 4 },
+    { id: 6, parentId: 5 },
+    { id: 7, parentId: 6 }
+]
+// 把这个数组从顶级分类递归查找子分类，最终构建一个树状数组。
+// 结果输出如下：
+const _result = [
+    {
+        id:1, 
+        parentId: 0,
+        children:[
+            {
+                id:2, 
+                parentId:1
+            },
+            {
+                id:3, 
+                parentId:1
+            }
+        ]
+    }
+]
+// parentId为0 的是根节点
+
+// =============================================================
+
+function arrToTree(pid, arr) {
+    const res = []
+    arr.forEach(e => {
+        if(e.parentId === pid) {
+            const obj = {...e}
+            const children = arrToTree(e.id, arr)
+            if(children.length) {
+                obj.children = children
+            }
+            res.push(obj)
+        }
+    });
+    return res
+}
+
+// =============================================================
+
+const tree = arrToTree(0, arr)
+console.log(tree);
+</script>
+</html>

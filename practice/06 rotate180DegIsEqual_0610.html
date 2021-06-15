@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 给你一个纯数字字符串，判断旋转180度之后是否和自己相等，‘121‘ 输出 false，因为2旋转之后不是数字，'1691' => true 因为1691选装180度还是1691， 1991 => false 因为1991旋转之后是1661
+
+    // map+双指针
+    const ROTATE_180_DEG_ISEQUAL_MAP = new Map([
+        ['0', '0'],
+        ['1', '1'],
+        ['6', '9'],
+        ['8', '8'],
+        ['9', '6'],
+    ])
+
+    function rotate180DegIsEqual(str) {
+        const MAP = ROTATE_180_DEG_ISEQUAL_MAP
+
+        let i = 0
+        let j = str.length - 1
+        while(i <= j) {
+            const rotated = MAP.get(str[i])
+            console.log(rotated, MAP.get(str[j]));
+            if(!rotated || str[i] !== MAP.get(str[j])) return false
+            i++
+            j--
+        }
+        return true
+    }
+
+    console.log(rotate180DegIsEqual('16891'));
+</script>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 用js实现abacba 转成 aaa,bb,c
+    function assortSameLetter (str) {
+        const map = new Map()
+        for (let i = 0; i < str.length; i++) {
+            const v = str[i];
+            if(map.has(v)) {
+                map.set(v, map.get(v) + v)
+            }else {
+                map.set(v, v)
+            }
+        }
+        // console.log([...map]);
+        return [...map].reduce((pre, cur) => {
+            return pre + cur[1]
+        }, '')
+    }
+    console.log(assortSameLetter('aassswdas'));
+</script>
+</html>
