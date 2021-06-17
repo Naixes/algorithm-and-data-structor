@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 给你一个按升序排序的整数数组 num（可能包含重复数字），请你将它们分割成一个或多个长度为 3 的子序列，其中每个子序列都由连续整数组成。
+
+    // 如果可以完成上述分割，则返回 true ；否则，返回 false 。
+
+    // 示例：
+
+    // 输入: [1,2,3,3,4,5]
+    // 输出: True
+    // 解释:
+    // 你可以分割出这样两个连续子序列 : 
+    // 1, 2, 3
+    // 3, 4, 5
+
+    // 贪心算法
+
+    // 方法1
+    // 首先使用两个哈希 mapnc和tail
+
+    // nc[i]：存储原数组中数字i出现的次数
+    // tail[i]：存储以数字i结尾的且符合题意的连续子序列个数
+    // 先去寻找一个长度为3的连续子序列 i, i+1, i+2，找到后就将 nc[i], nc[i+1], nc[i+2] 中对应数字消耗1个（即-1），并将 tail[i+2] 加 1，即以 i+2 结尾的子序列个数 +1。
+    // 如果后续发现有能够接在这个连续子序列的数字 i+3，则延长以 i+2 为结尾的连续子序列到 i+3，此时消耗 nc[i+3] 一个，由于子序列已延长，因此tail[i+2] 减 1，tail[i+3] 加 1
+    // 在不满足上面的情况下
+    // 如果 nc[i] 为 0，说明这个数字已经消耗完，可以不管了
+    // 如果 nc[i] 不为 0，说明这个数字多出来了，且无法组成连续子序列，所以可以直接返回 false 了
+
+    // 作者：aspenstarss
+    // 链接：https://leetcode-cn.com/problems/split-array-into-consecutive-subsequences/solution/tan-xin-suan-fa-jian-cha-shu-zu-neng-fou-bei-fen-w/
+    
+    function isPossible(arr) {
+        let result = true
+        // 存储原数组中数字i出现的次数
+        let numCountMap = new Map()
+        // 存储以数字i结尾的且符合题意的连续子序列个数
+        let numEndCountMap = new Map()
+        // 初始化
+        arr.forEach(num => {
+            let value = numCountMap.get(num) || 0
+            numCountMap.set(num, ++value)
+            numEndCountMap.set(num, 0)
+        });
+        // console.log(numCountMap);
+        // console.log(numEndCountMap);
+        arr.forEach(num => {
+            let value = numCountMap.get(num)
+            let before = numCountMap.get(num - 1)
+            let after = numCountMap.get(num + 1)
+            let after2 = numCountMap.get(num + 2)
+            let endCount = numEndCountMap.get(num)
+            let beforCount = numEndCountMap.get(num - 1)
+            // 没有数字时跳过
+            if(value !== 0) {
+                // 有三个连续的树
+                if(value > 0 && after > 0 && after2 > 0) {
+                    numCountMap.set(num, --value)
+                    numCountMap.set(num + 1, --after)
+                    numCountMap.set(num + 2, --after2)
+                    numEndCountMap.set(num + 2, ++endCount)
+                    // 可以连接到其他组后面
+                }else if(value > 0 && beforCount > 0) {
+                    numCountMap.set(num, --value)
+                    numEndCountMap.set(num - 1, --beforCount)
+                    numEndCountMap.set(num, ++endCount)
+                }else {
+                    result = false
+                }
+            }
+            // console.log(numCountMap);
+            // console.log(numEndCountMap);
+        })
+        return result
+    }
+
+    // 方法2：
+    var isPossible = function(nums) {
+        const countMap = new Map();
+        const endMap = new Map();
+        for (const x of nums) {
+            const count = (countMap.get(x) || 0) + 1;
+            countMap.set(x, count);
+        }
+        for (const x of nums) {
+            const count = countMap.get(x) || 0;
+            if (count > 0) {
+                const prevEndCount = endMap.get(x - 1) || 0;
+                // 存在可连接的序
+                if (prevEndCount > 0) {
+                    countMap.set(x, count - 1);
+                    endMap.set(x - 1, prevEndCount - 1);
+                    endMap.set(x, (endMap.get(x, 0) || 0) + 1);
+                } else {
+                    const count1 = countMap.get(x + 1, 0);
+                    const count2 = countMap.get(x + 2, 0);
+                    // 有后两位数
+                    if (count1 > 0 && count2 > 0) {
+                        countMap.set(x, count - 1);
+                        countMap.set(x + 1, count1 - 1);
+                        countMap.set(x + 2, count2 - 1);
+                        endMap.set(x + 2, (endMap.get(x + 2) || 0) + 1);
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    };
+
+    console.log(isPossible([1,2,3,3,4,5]));
+</script>
+</html>

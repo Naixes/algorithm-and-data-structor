@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 手写一个截取url参数然后生成map关系映射的函数
+    function parseUrl(url) {
+        if(url.indexOf('?') < 0) return {}
+        let map = new Map()
+        const params = url.split("?")[1].split('&')
+        for (let i = 0; i < params.length; i++) {
+            const [key, value] = params[i].split('=')
+            map.set(key, value)
+        }
+        return map
+    }
+</script>
+</html>

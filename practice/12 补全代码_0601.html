@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+function a1(next){ 
+  console.log('dosth_a1_before'); // 1
+  next && next();
+  console.log('dosth_a1_after'); // 6
+}
+function a2(next){
+  console.log('dosth_a2_before'); // 2
+  next && next(); 
+  console.log('dosth_a2_after'); // 5
+}
+function a3(next){
+  console.log('dosth_a3_before'); // 3
+  next && next(); 
+  console.log('dosth_a3_after'); // 4
+}
+
+// 补全
+// a1
+//  a2
+//   a3
+// 递归
+function fn(arr){
+    const [start, ...rest] = arr
+    start && start(() => fn(rest))
+}
+
+fn([a1,a2,a3])
+// 按如下顺序输出
+// dosth_a1_before ，
+// dosth_a2_before，
+// dosth_a3_before，
+// dosth_a3_after，
+// dosth_a2_after，
+// dosth_a1_after
+</script>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 实现 mergePromise 函数，把传进去的数组顺序先后执行，并且把返回的数据先后放到数组 data 中
+
+    const timeout = ms =>
+        new Promise((resolve, reject) => {
+            setTimeout(() => {
+            resolve()
+            }, ms)
+        })
+
+    const ajax1 = () =>
+        timeout(2000).then(() => {
+            console.log('1')
+            return 1
+        })
+
+    const ajax2 = () =>
+        timeout(1000).then(() => {
+            console.log('2')
+            return 2
+        })
+
+    const ajax3 = () =>
+        timeout(2000).then(() => {
+            console.log('3')
+            return 3
+        })
+
+    // 1. async+await
+    // const mergePromise = ajaxArray => {
+    //     // 在这里实现你的代码
+    //     const result = []
+
+    //     return new Promise(async resolve => {
+    //         for (let i = 0; i < ajaxArray.length; i++) {
+    //             result.push(await ajaxArray[i]())
+    //         }
+    //         resolve(result)
+    //     })
+    // }
+
+    // 2. 嵌套
+    const mergePromise = ajaxArray => {
+        // 在这里实现你的代码
+        const result = []
+        let curLen = 0
+        const len = ajaxArray.length
+
+        return new Promise(resolve => {
+            function runTask(task) {
+                task().then(res => {
+                    result.push(res)
+                    curLen++
+                    if(curLen === len) {
+                        // 返回结束代码
+                        return resolve(result)
+                    }
+                    runTask(ajaxArray.shift())
+                })
+            }
+            runTask(ajaxArray.shift())
+        })
+    }
+
+    // 分别输出
+    // 1
+    // 2
+    // 3
+    // done
+    // // 循环的最后一次resolve(result)
+    // [1, 2, 3]
+</script>
+</html>

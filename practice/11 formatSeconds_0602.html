@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+</body>
+<script>
+    // 秒 转换为 时分秒格式、不能使用js API
+    function formatSeconds(sec) {
+        // let hour = Math.floor(sec / 3600)
+        let hour = (sec / 3600) >> 0
+        // let minutes = (sec % 3600 / 60) >> 0
+        let minutes = ((sec - hour * 3600) / 60) >> 0
+        let seconds = sec - hour * 3600 - minutes * 60
+        return hour + '时' + minutes + '分' + seconds + '秒'
+    }
+</script>
+</html>
