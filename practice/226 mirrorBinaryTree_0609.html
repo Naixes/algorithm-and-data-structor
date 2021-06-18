@@ -41,8 +41,8 @@
         if(arr.length > i && arr[i] !== null) {
             let tem = new BinaryTreeNode(arr[i])
             root = tem
-            root.left = createBinaryTree(arr, root.left, i * 2 + 1)
-            root.right = createBinaryTree(arr, root.right, i * 2 + 2)
+            root.left = createBinaryTree(arr, null, i * 2 + 1)
+            root.right = createBinaryTree(arr, null, i * 2 + 2)
         }
         return root
     }
@@ -75,7 +75,7 @@
 // =================================================================
 
     const tree = createBinaryTree([1,2,3,4,5,6,7])
-    mirrorBinaryTree(tree)
+    // mirrorBinaryTree(tree)
     console.log(tree);
 </script>
 </html>
