@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+const addTwoNumbers = function(l1, l2) {
+  // 数组
+  let plus = 0
+  let i = 0
+  const result = []
+  while(l1[i] || l2[i] || plus) {
+    const a = l1[i] || 0
+    const b = l2[i] || 0
+    let temp = a + b + plus
+    plus = temp >= 10 ? 1 : 0
+    result[i] = temp % 10
+    i++
+  }
+  return result
+  
+  // 链表
+  // // 创建临时的链表
+  // let resNode = new ListNode(0);
+  // // 记录好相关的临时链表信息
+  // let res = resNode;
+  // // 记录是否进行进位运算
+  // let flag = 0;
+  // //当l1不为空或l2不为空或不需要进位时
+  // while(l1 || l2 || flag) {
+  //     // 记录其相关的值
+  //     let val1 = l1?l1.val:0;
+  //     let val2 = l2?l2.val:0;
+  //     let sum = val1 + val2 + flag;
+  //     //判断是否需要进位
+  //     flag = sum >= 10 ? 1 : 0;
+  //     //链表所存储的元素只能为余数
+  //     sum = sum % 10;
+  //     //当相关的链表不为空时，则链表一次向下遍历
+  //     if(l1) {
+  //         l1 = l1.next;
+  //     }
+  //     if(l2) {
+  //         l2 = l2.next;
+  //     }
+  //     //向临时创建的链表追加元素
+  //     resNode.next = new ListNode(sum);
+  //     resNode = resNode.next;
+  // }
+  // console.log(res)
+  // return res.next;
+}
+
+const l1 = [9,9,9,9,9,9,9]
+const l2 = [9,9,9,9]
+addTwoNumbers(l1, l2)
+</script>
+</html>

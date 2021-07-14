@@ -13,7 +13,7 @@ function List(){
     this.remove = remove;
     this.getKthFromEnd = getKthFromEnd;
 }
-//插入位置
+// 查找
 function find(item){
     var currNode = this.head;
     while(currNode.element!=item){
@@ -28,25 +28,24 @@ function insert(newElement,item){
     var currNode = this.find(item)
     newNode.next = currNode.next;
     currNode.next = newNode
+}
 
- }
-
- function findPrevious(item){
-     var currNode = this.head;
-     while((currNode.next!==null)&&(currNode.next.element!==item)){
-         currNode = currNode.next;
-     }
-     return currNode
-     
- }
- function remove (item){
-     var preNode = this.findPrevious(item)
-     var currNode = this.find(item)
-     if(preNode.next!==null){
-         preNode.next = currNode.next;
-         currNode.next = null
-     }
- }
+function findPrevious(item){
+    var currNode = this.head;
+    while((currNode.next!==null)&&(currNode.next.element!==item)){
+        currNode = currNode.next;
+    }
+    return currNode
+    
+}
+function remove (item){
+    var preNode = this.findPrevious(item)
+    var currNode = this.find(item)
+    if(preNode.next!==null){
+        preNode.next = currNode.next;
+        currNode.next = null
+    }
+}
 
 // 遍历
 function display(){
