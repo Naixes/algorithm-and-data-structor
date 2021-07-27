@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+// 1 => A
+// 2 => B
+// 3 => C
+// ...
+// 26 => Z
+// 27 => AA
+// 28 => AB
+// ...
+// 52 => AZ
+// 53 => BA
+// 54 => BB
+
+// 实现下方函数
+function convert(n){
+    // todo
+    let res = ''
+    while(n > 0) {
+        let m = n % 26
+        n = parseInt(m / 26)
+        if(m === 0) {
+            m = 26
+            n--
+        }
+        res = String.fromCharCode(m + 64) + res
+    }
+}
+// 测试代码
+const output1 = convert(1);
+console.log(output1); //A
+const output2 = convert(26);
+console.log(output2);// Z
+</script>
+</html>

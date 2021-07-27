@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+// 给定一个数组，按找到每个元素右侧第一个比它大的数字，没有的话返回-1 规则返回一个数组
+// 
+function findBiggerRight(array) {
+    const size = array.length;
+    // 记录还没找到对应数字的index的栈
+    let indexStack = [0];
+    let result = [];
+    let index = 1;
+    while (index < size) {
+        // 判断栈顶的index是否小于当前数
+        if (
+            indexStack.length > 0 &&
+            array[indexStack[indexStack.length - 1]] < array[index]
+        ) {
+            // 栈顶的index小于当前数
+            result[indexStack[indexStack.length - 1]] = array[index];
+            // 就删除当前index，进入下一轮循环
+            indexStack.pop();
+        } else {
+            // 不大于将当前index入栈
+            indexStack.push(index);
+            // 判断下一个index
+            index++;
+        }
+    }
+    // 把没有找到大值的index都赋值-1
+    indexStack.forEach((item) => {
+        result[item] = -1;
+    });
+    return result;
+}
+console.log(findBiggerRight([5,3,6,7,2,9])); // [6, 6, 7, 9, 9, -1]
+</script>
+</html>
