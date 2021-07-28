@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    function wideTraversal(root, fn) {
+        let res = null
+        const bfs = (root) => {
+            let queue = [root]
+            while (queue.length) {
+                const current = queue.shift()
+                if(fn(current)) return res = current
+                queue.push(...current.children)
+            }
+        }
+        bfs(root)
+        return res
+    }
+</script>
+</html>

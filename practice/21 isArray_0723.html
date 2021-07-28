@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    function isArray1(value) {
+        if(value === null) return false
+        return value.constructor === Array
+    }
+    function isArray2(value) {
+        return Array.prototype.isPrototypeOf(value)
+    }
+    function isArray3(value) {
+        return value instanceof Array
+    }
+    function isArray4(value) {
+        return Array.isArray(value)
+    }
+    function isArray5(value) {
+        // console.log(Object.prototype.toString.call(value));
+        return Object.prototype.toString.call(value) === '[object Array]'
+    }
+    console.log(isArray5({}));
+    console.log(isArray5(null));
+    console.log(isArray5(5));
+    console.log(isArray5([]));
+</script>
+</html>
