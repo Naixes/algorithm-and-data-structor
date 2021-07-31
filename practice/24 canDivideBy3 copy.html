@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // fsm有限状态机
+function createFSM() {
+  return {
+    // 初始余数为0
+    initial: 0,
+    states: {
+      0: {
+        on: {
+          read(ch) {
+            return {
+              0: 0,
+              3: 0,
+              9: 0,
+              1: 1,
+              4: 1,
+              7: 1,
+              2: 2,
+              5: 2,
+              8: 2,
+            }[ch];
+          },
+        },
+      },
+      1: {
+        on: {
+          read(ch) {
+            return {
+              0: 1,
+              3: 1,
+              9: 1,
+              1: 2,
+              4: 2,
+              7: 2,
+              2: 0,
+              5: 0,
+              8: 0,
+            }[ch];
+          },
+        },
+      },
+      2: {
+        on: {
+          read(ch) {
+            return {
+              0: 2,
+              3: 2,
+              9: 2,
+              1: 0,
+              4: 0,
+              7: 0,
+              2: 1,
+              5: 1,
+              8: 1,
+            }[ch];
+          },
+        },
+      },
+    },
+  };
+}
+
+const fsm = createFSM();
+const str = "281902812894839483047309573843389230298329038293829329";
+let cur = fsm.initial;
+for (let i = 0; i < str.length; i++) {
+    if(!/[0-9]/.test(str[i])) {
+        throw new Error('非法字符')
+    }
+    cur = fsm.states[cur].on.read(str[i])
+}
+if(cur === 0) {
+    console.log('ok');
+}else {
+    console.log('no');
+}
+</script>
+</html>

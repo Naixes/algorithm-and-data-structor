@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 返回arr的所有幂集 -->
+</body>
+<script>
+    // [1, 2, 3]
+    // 递归回溯
+    // function findAllSetFromArr(arr) {
+    //     const result = []
+    //     const setArr = []
+    //     const len = arr.length
+    //     dfs(0)
+    //     // 0 - len
+    //     function dfs(index) {
+    //         console.log(setArr.slice());
+    //         result.push(setArr.slice())
+    //         for (let i = index; i < len; i++) {
+    //             setArr.push(arr[i])
+    //             dfs(i + 1)
+    //             setArr.pop()
+    //         }
+    //     }
+    //     return result
+    // }
+    // 循环
+    function findAllSetFromArr(arr) {
+        let result = []
+        // [[]]
+        // [[], [1]]
+        // [[], [1], [2], [1, 2]]
+        // [[], [1], [2], [1, 2], [3], [2, 3], [1, 2, 3]]
+        result.push([])
+        const len = arr.length
+        for (let i = 0; i < len; i++) {
+            // [1]
+            let tem = result.map(v => [...v, arr[i]])
+            // [[], [1]]
+            result = result.concat(tem)
+        }
+        return result
+    }
+    console.log(findAllSetFromArr([1, 2, 3]));
+</script>
+</html>

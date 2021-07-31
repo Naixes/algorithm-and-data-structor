@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 返回所有由1-n的k位数组合 -->
+</body>
+<script>
+function composeK(n, k) {
+  const result = []
+  const valueArr = []
+  dfs(1)
+  function dfs(index) {
+    // 剪枝
+    if(valueArr.length === k) {
+      result.push(valueArr.slice())
+      return
+    }
+    for (let i = 0; i < n; i++) {
+      valueArr.push(i)
+      dfs(i)
+      // 回溯
+      valueArr.pop()
+    }
+  }
+  return result
+}
+console.log(composeK(3, 2));
+</script>
+</html>
