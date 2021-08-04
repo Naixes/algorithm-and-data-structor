@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 用栈实现队列 -->
+</body>
+<script>
+// push(x) // 将一个元素放入队列的尾部。
+// pop()  // 队列首部移除元素。
+// peek()  // 返回队列首部的元素。
+// empty() // 返回队列是否为空。
+
+class MyQueue {
+    constructor() {
+        this.inStack = []
+        this.outStack = []
+    }
+    inToOut() {
+        while(this.inStack.length) {
+            this.outStack.push(this.inStack.pop())
+        }
+    }
+    push(v) {
+        this.inStack.push(v)
+    }
+    pop() {
+        if(!this.outStack.length) {
+            this.inToOut()
+        }
+        return this.outStack.pop()
+    }
+    peek() {
+        if(!this.outStack.length) {
+            this.inToOut()
+        }
+        const outLen = this.outStack.length
+        return outLen && this.outStack[outLen - 1]
+    }
+    empty() {
+        return this.inStack.length === 0 && this.outStack.length === 0
+    }
+}
+
+// 示例
+queue = new MyQueue();
+queue.push(1);
+queue.push(2);
+console.log(queue.peek()); // 返回 1
+console.log(queue.pop()); // 返回 1
+console.log(queue.empty()); // 返回 false
+
+// 说明
+// 只能使用标准的栈操作 -- 也就是只有 push to top, peek/pop from top, size, 和 is empty 操作是合法的。
+// 假设所有操作都是有效的 （例如，一个空的队列不会调用 pop 或者 peek 操作）。
+</script>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 实现一个在常数时间复杂度检索到最小值 -->
+</body>
+<script>
+// push(x);//将元素 x 推入栈中。
+// pop(); // 删除栈顶元素
+// top(); // 获取栈顶元素
+// getMin();// 检索栈中最小的元素
+
+class MinStack {
+    constructor() {
+        this.stack = []
+        this.minStack = []
+    }
+    push(v) {
+        this.stack.push(v)
+        const minLen = this.minStack.length
+        if(minLen === 0 || v <= this.minStack[minLen - 1]) {
+            this.minStack.push()
+        }
+    }
+    pop() {
+        const minLen = this.minStack.length
+        if(this.stack.pop() === this.minStack[minLen - 1]) {
+            this.minStack.pop()
+        }
+    }
+    top() {
+        return this.stack[this.stack.length - 1]
+    }
+    getMin() {
+        return this.minStack[this.minStack.length - 1]
+    }
+}
+
+// 示例
+minStack = new MinStack();
+minStack.push(-2);
+minStack.push(0);
+minStack.push(-3);
+minStack.getMin();   // --> 返回 -3
+minStack.pop();
+minStack.top();      // --> 返回 0
+minStack.getMin();   // --> 返回 -2
+</script>
+</html>
