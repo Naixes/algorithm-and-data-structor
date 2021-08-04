@@ -12,23 +12,23 @@
 <script>
     // [1, 2, 3]
     // 递归回溯
-    // function findAllSetFromArr(arr) {
-    //     const result = []
-    //     const setArr = []
-    //     const len = arr.length
-    //     dfs(0)
-    //     // 0 - len
-    //     function dfs(index) {
-    //         console.log(setArr.slice());
-    //         result.push(setArr.slice())
-    //         for (let i = index; i < len; i++) {
-    //             setArr.push(arr[i])
-    //             dfs(i + 1)
-    //             setArr.pop()
-    //         }
-    //     }
-    //     return result
-    // }
+    function findAllSetFromArr(arr) {
+        const result = []
+        const setArr = []
+        const len = arr.length
+        dfs(0)
+        // 0 - len
+        function dfs(index) {
+            console.log(setArr.slice());
+            result.push(setArr.slice())
+            for (let i = index; i < len; i++) {
+                setArr.push(arr[i])
+                dfs(i + 1)
+                setArr.pop()
+            }
+        }
+        return result
+    }
     // 循环
     function findAllSetFromArr(arr) {
         let result = []

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 返回一个无重复数字序列的全排序 -->
+</body>
+<script>
+function permute(arr) {
+    const result = []
+    const current = []
+    const visited = {}
+    const len = arr.length
+    function dfs(index) {
+        if(index === len) {
+            result.push(current.slice())
+            return
+        }
+        for (let i = 0; i < len; i++) {
+            if(!visited[arr[i]]) {
+                current.push(arr[i])
+                visited[arr[i]] = 1
+                dfs(index + 1)
+                current.pop()
+                visited[arr[i]] = 0
+            }
+        }
+    }
+    dfs(0)
+    return result
+}
+
+console.log(permute([1,2,3]));
+</script>
+</html>
